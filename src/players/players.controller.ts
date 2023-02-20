@@ -13,7 +13,7 @@ export class PlayersController {
   }
 
   @Get()
-  async getPlayer(@Query('email') email: string): Promise<Player[]> {
+  async getPlayer(@Query('email') email: string): Promise<Player[] | Player> {
     if (email) {
       return this.playersService.getPlayerByEmail(email);
     }
@@ -22,7 +22,7 @@ export class PlayersController {
   }
 
   @Delete()
-  async hardDeletePlayer(@Query('email') email: string): Promise<void> {
+  async hardDeletePlayer(@Query('email') email: string): Promise<Player> {
     return this.playersService.hardDelete(email);
   }
 }
