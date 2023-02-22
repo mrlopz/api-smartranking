@@ -74,6 +74,24 @@ export class CategoriesService {
       .exec();
   }
 
+  async getCategoryOfPlayer(playerId: any) {
+    const players = await this.playersService.listPlayers();
+
+    const filteredPlayers = players.filter((player) => player._id == playerId);
+
+    if (filteredPlayers.length == 0) {
+      throw new BadRequestException(
+        `Player with ID ${playerId} does not found!`,
+      );
+    }
+
+    return await this.categoryModel
+      .findOne()
+      .where('players')
+      .in([playerId])
+      .exec();
+  }
+
   async deleteCategory(category: string): Promise<any> {
     return await this.categoryModel.deleteOne({ category }).exec();
   }
